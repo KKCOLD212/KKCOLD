@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение 💕</title>
+    <style>
+        body {
+            background-color: #ffe6f2; /* Милый нежно-розовый фон */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.6);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+        }
+        h1 {
+            color: #ff4d94;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            height: 50px;
+            position: relative;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            font-weight: bold;
+        }
+        .btn-yes {
+            background-color: #ff4d94;
+            color: white;
+        }
+        .btn-yes:hover {
+            background-color: #e60067;
+            transform: scale(1.05);
+        }
+        .btn-no {
+            background-color: #ffccd5;
+            color: #ff4d94;
+            position: absolute;
+        }
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .select-input {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ffccd5;
+            border-radius: 10px;
+            outline: none;
+            color: #ff4d94;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Экран 1: Вопрос про свидание -->
+        <div id="screen1">
+            <h1 id="question">Ты пойдешь со мной на свидание? 💕</h1>
+            <div class="btn-container">
+                <button class="btn-yes" onclick="nextScreen()">Да!</button>
+                <button class="btn-no" id="noBtn">Нет</button>
+            </div>
+        </div>
+
+        <!-- Экран 2: Выбор места и времени -->
+        <div id="screen2" class="hidden">
+            <h1>Отлично, где встретимся и во сколько? 🥰</h1>
+            <div class="options-container">
+                <select id="place" class="select-input">
+                    <option value="" disabled selected>Выбери место...</option>
+                    <option value="school">На школе 🏫</option>
+                    <option value="park">В парке 🌳</option>
+                    <option value="dk">Возле ДК 🏛️</option>
+                </select>
+                
+                <select id="time" class="select-input">
+                    <option value="" disabled selected>Выбери время...</option>
+                    <option value="15:00">В 15:00</option>
+                    <option value="17:00">В 17:00</option>
+                    <option value="19:00">В 19:00</option>
+                </select>
+
+                <button class="btn-yes" style="margin-top: 10px;" onclick="finish()">Подтвердить!</button>
+            </div>
+        </div>
+
+        <!-- Экран 3: Финал -->
+        <div id="screen3" class="hidden">
+            <h1 id="finalMessage">Ура! До встречи! 😘</h1>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const screen1 = document.getElementById('screen1');
+        const screen2 = document.getElementById('screen2');
+        const screen3 = document.getElementById('screen3');
+
+        // Логика убегания кнопки "Нет"
+        noBtn.addEventListener('mouseover', () => {
+            // Кнопка прыгает в случайные координаты внутри карточки
+            const x = Math.random() * 200 - 100; // Смещение по горизонтали
+            const y = Math.random() * 150 - 75;  // Смещение по вертикали
+            
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // Переход на экран выбора места
+        function nextScreen() {
+            screen1.classList.add('hidden');
+            screen2.classList.remove('hidden');
+        }
+
+        // Финальный экран
+        function finish() {
+            const placeSelect = document.getElementById('place');
+            const timeSelect = document.getElementById('time');
+            
+            if (!placeSelect.value || !timeSelect.value) {
+                alert('Выбери, пожалуйста, место и время! 😊');
+                return;
+            }
+
+            const placeText = placeSelect.options[placeSelect.selectedIndex].text;
+            const timeText = timeSelect.options[timeSelect.selectedIndex].text;
+
+            document.getElementById('finalMessage').innerHTML = `Ура! Договорились!<br>Жду тебя <br><b>${placeText.toLowerCase()}</b> ${timeText.toLowerCase()}! ✨`;
+            screen2.classList.add('hidden');
+            screen3.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
